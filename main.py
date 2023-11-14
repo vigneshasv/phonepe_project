@@ -48,9 +48,6 @@ st.markdown("##")
 st.subheader("Total_amount:")
 st.subheader(f"{total_amount():,}")
 
-
-
-
 send_data_request(year, quater, state, transation_type)
 st.dataframe(get_data_frame())
 
@@ -69,3 +66,43 @@ right_column.plotly_chart(pie_chart_agg_user(),use_container_width=True)
 get_dataframe_map(m_year, m_quater, m_type_)
 plot = show_map()
 st.plotly_chart(plot)
+
+st.sidebar.header("Top 10 filtered data:")
+with st.sidebar:
+    add_selectbox = st.selectbox(
+    "Select mode",
+    ("Get data", "Query")
+    )
+    
+    if add_selectbox is "Get data":
+       
+        gu = st.button("get data", type="primary")
+        
+    if add_selectbox is "Query":
+            select_query = st.selectbox(
+        "Select your Query?",
+        ("1. query top 10 states based on year and amount of transaction?",
+         "2.query Top 10 states based on type and amount of transaction?",
+         "3. query Top 5 transacation_type based on transaction_amount?",
+         "4.query top 10 registered_user based on state and district?",
+         "5.query top 10 district based on states and count of transaction?",
+         "6.query top 10 district based on state and amount of transaction?",
+         "7.query top 10 transaction_count based on district and states?",
+         "8.query top 10 pincode_transaction_count dased on states and pincode?",
+         "9.query top 10 register user based on pincode and year?",
+         "10.query top 10 register user based on app_opens and states?")
+         )
+        
+    qu = st.button("get query..", type="primary")
+    
+if add_selectbox is "Get data" and gu:
+    st.write('Data getting....') 
+    #start_sql() 
+    st.write('Data loaded')         
+ 
+elif add_selectbox is "Query" and qu:
+    st.title('Loading Query') 
+    df = query(select_query)
+    st.title('loaded') 
+    st.dataframe(df)
+
